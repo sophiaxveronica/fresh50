@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+        {% if category == 'Allposts' %}
+            All Posts
+        {% else %}
+            Posts in {{ category }}
+        {% endif %}
+{% endblock %}
+
+{% block main %}
+    <p><u><b>
+        {% if category == 'Allposts' %}
+            All Posts
+        {% else %}
+            Posts in {{ category }}
+        {% endif %}
+    </b></u></p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author ID</th>
+                <th>Language</th>
+                <th>Advice</th>
+                <th>Time Posted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categorypost in categoryposts %}
+                <tr>
+                    <td>{{ categorypost.title }}</td>
+                    <td>{{ categorypost.user_id }}</td>
+                    <td>{% if categorypost.language_id == 0 %}
+                            English
+                        {% elif categorypost.language_id == 1 %}
+                            French
+                        {% elif categorypost.language_id == 2 %}
+                            Spanish
+                        {% endif %}
+                    </td>
+                    <td>{% if categorypost.category_id == 0 %}
+                            Academics
+                        {% elif categorypost.category_id == 1 %}
+                            Athletics
+                        {% elif categorypost.category_id == 2 %}
+                            Budgeting
+                        {% elif categorypost.category_id == 3 %}
+                            Extracurricular
+                        {% elif categorypost.category_id == 4 %}
+                            Social
+                        {% elif categorypost.category_id == 5 %}
+                            Wellness
+                        {% endif %}
+                    </td>
+                    <td>{{ categorypost.advice }}</td>
+                    <td>{{ categorypost.timestamp }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

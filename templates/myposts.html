@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Posts
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Language</th>
+                <th>Category</th>
+                <th>Advice</th>
+                <th>Time Posted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mypost in myposts %}
+                <tr>
+                    <td>{{ mypost.title }}</td>
+                    <td>{% if mypost.language_id == 0 %}
+                            English
+                        {% elif mypost.language_id == 1 %}
+                            French
+                        {% elif mypost.language_id == 2 %}
+                            Spanish
+                        {% endif %}
+                    </td>
+                    <td>{% if mypost.category_id == 0 %}
+                            Academics
+                        {% elif mypost.category_id == 1 %}
+                            Athletics
+                        {% elif mypost.category_id == 2 %}
+                            Budgeting
+                        {% elif mypost.category_id == 3 %}
+                            Extracurricular
+                        {% elif mypost.category_id == 4 %}
+                            Social
+                        {% elif mypost.category_id == 5 %}
+                            Wellness
+                        {% endif %}
+                    </td>
+                    <td>{{ mypost.advice }}</td>
+                    <td>{{ mypost.timestamp }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

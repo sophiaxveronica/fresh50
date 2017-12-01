@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    All Categories
+{% endblock %}
+
+{% block main %}
+    <p>
+        <b><u>Choose a category to see the posts: </b></u>
+    </p>
+    <form action="/categories" method="post">
+        <div class="form-group">
+            <select name="category">
+              <option value="Allposts">All Posts</option>
+              <option value="Academics">Academics</option>
+              <option value="Athletics">Athletics</option>
+              <option value="Budgeting">Budgeting</option>
+              <option value="Extracurricular">Extracurricular</option>
+              <option value="Social">Social</option>
+              <option value="Wellness">Wellness</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">See Posts</button>
+    </form>
+{% endblock %}

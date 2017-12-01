@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Posted
+{% endblock %}
+
+{% block main %}
+    <p>
+        <b><u>Thank you for your submission! Check out what you posted below: </b></u>
+    </p>
+    <p>
+        <b>Title:</b> {{ title }}
+    </p>
+    <p>
+        <b>Language:</b> {{ language }}
+    </p>
+    <p>
+        <b>Category:</b> {{ category }}
+    </p>
+    <p>
+        <b>Advice:</b> {{ advice }}
+    </p>
+{% endblock %}
