@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Advice by Category
+    Advice by PAF
 {% endblock %}
 
 {% block main %}
@@ -9,22 +9,18 @@
     <div class="w3-main" style="margin-left:340px;margin-right:40px">
         <div class="w3-container" style="margin-top:80px">
             <h1 class="w3-jumbo"><b>FRESH</b></h1>
-            <h1 class="w3-xxxlarge w3-text-red"><b>Advice by Category</b></h1>
+            <h1 class="w3-xxxlarge w3-text-red"><b>Advice by PAF</b></h1>
             <hr style="width:50px;border:5px solid red" class="w3-round">
         </div>
         <div class="w3-section">
-            <b>Choose a category to see posts: </b>
+            <b>Choose a PAF to see their posts: </b>
         </div>
-        <form action="/categories" method="post">
+        <form action="/pafs" method="post">
             <div class="w3-section">
-                <select name="category">
-                    <option value="Allposts">All Posts</option>
-                    <option value="Academics">Academics</option>
-                    <option value="Athletics">Athletics</option>
-                    <option value="Budgeting">Budgeting</option>
-                    <option value="Extracurricular">Extracurricular</option>
-                    <option value="Social">Social</option>
-                    <option value="Wellness">Wellness</option>
+                <select name="nickname">
+                    {% for paf in pafs %}
+                    <option value="{{ paf.nickname }}">{{ paf.nickname }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="w3-section">

@@ -1,12 +1,13 @@
 import csv
 import os
 import urllib.request
+import requests
 
 from flask import redirect, render_template, request, session
 from functools import wraps
 
 
-def apology(message, code=400):
+def uhoh(message, code=400):
     """Renders message as an apology to user."""
     def escape(s):
         """
@@ -18,7 +19,7 @@ def apology(message, code=400):
                          ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
             s = s.replace(old, new)
         return s
-    return render_template("apology.html", top=code, bottom=escape(message)), code
+    return render_template("uhoh.html", top=code, bottom=escape(message)), code
 
 
 def login_required(f):
@@ -35,81 +36,23 @@ def login_required(f):
     return decorated_function
 
 
-def lookup(symbol):
-    """Look up quote for symbol."""
+# def exists(path):
+#     """
+#     Makes sure the image URL given is a real image.
 
-    # reject symbol if it starts with caret
-    if symbol.startswith("^"):
-        return None
+#     https://stackoverflow.com/questions/2486145/python-check-if-url-to-jpg-exists
+#     """
+#     r = requests.head(path)
+#     return r.status_code == requests.codes.ok
 
-    # Reject symbol if it contains comma
-    if "," in symbol:
-        return None
+def exists(site, path):
+    """
+    Makes sure the image URL given is a real image.
 
-    # Query Yahoo for quote
-    # http://stackoverflow.com/a/21351911
-    try:
-
-        # GET CSV
-        url = f"http://download.finance.yahoo.com/d/quotes.csv?f=snl1&s={symbol}"
-        webpage = urllib.request.urlopen(url)
-
-        # Read CSV
-        datareader = csv.reader(webpage.read().decode("utf-8").splitlines())
-
-        # Parse first row
-        row = next(datareader)
-
-        # Ensure stock exists
-        try:
-            price = float(row[2])
-        except:
-            return None
-
-        # Return stock's name (as a str), price (as a float), and (uppercased) symbol (as a str)
-        return {
-            "name": row[1],
-            "price": price,
-            "symbol": row[0].upper()
-        }
-
-    except:
-        pass
-
-    # Query Alpha Vantage for quote instead
-    # https://www.alphavantage.co/documentation/
-    try:
-
-        # GET CSV
-        url = f"https://www.alphavantage.co/query?apikey={os.getenv('API_KEY')}&datatype=csv&function=TIME_SERIES_INTRADAY&interval=1min&symbol={symbol}"
-        webpage = urllib.request.urlopen(url)
-
-        # Parse CSV
-        datareader = csv.reader(webpage.read().decode("utf-8").splitlines())
-
-        # Ignore first row
-        next(datareader)
-
-        # Parse second row
-        row = next(datareader)
-
-        # Ensure stock exists
-        try:
-            price = float(row[4])
-        except:
-            return None
-
-        # Return stock's name (as a str), price (as a float), and (uppercased) symbol (as a str)
-        return {
-            "name": symbol.upper(),  # for backward compatibility with Yahoo
-            "price": price,
-            "symbol": symbol.upper()
-        }
-
-    except:
-        return None
-
-
-def usd(value):
-    """Formats value as USD."""
-    return f"${value:,.2f}"
+    https://stackoverflow.com/questions/2486145/python-check-if-url-to-jpg-exists
+    """
+    conn = httplib.HTTPConnection(site)
+    conn.request('HEAD', path)
+    response = conn.getresponse()
+    conn.close()
+    return response.status == 200

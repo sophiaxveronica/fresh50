@@ -1,11 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    {% if category == 'Allposts' %}
-        All Posts
-    {% else %}}
-        Posts in {{ category }}
-    {% endif %}
+    Advice in {{ language }}
 {% endblock %}
 
 {% block main %}
@@ -13,7 +9,7 @@
     <div class="w3-main" style="margin-left:340px;margin-right:40px">
         <div class="w3-container" style="margin-top:80px">
             <h1 class="w3-jumbo"><b>FRESH</b></h1>
-            <h1 class="w3-xxxlarge w3-text-red"><b>Advice in {{ category }}</b></h1>
+            <h1 class="w3-xxxlarge w3-text-red"><b>Advice in {{ language }}</b></h1>
             <hr style="width:50px;border:5px solid red" class="w3-round">
         </div>
         <div class="w3-container" style="margin-top:75px">
@@ -22,26 +18,25 @@
                     <tr bgcolor=#EA4033>
                         <th><font color="white">Author</font></th>
                         <th><font color="white">Time Posted</font></th>
-                        <th><font color="white">Language</font></th>
+                        <th><font color="white">Category</font></th>
                         <th><font color="white">Title</font></th>
                         <th><font color="white">Advice</font></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for categorypost in categoryposts %}
+                    {% for languagepost in languageposts %}
                         <tr align=center>
-                        <td>
-                            {% for nickname in nicknames %}
-                                {% if nickname["id"] == categorypost.user_id %}
-                                    {{ nickname["nickname"] }}
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td>{{ categorypost.timestamp }}</td>
-                        <td>{{ language_ids[categorypost.language_id]["language_name"] }}</td>
-                        <td>{{ categorypost.title }}</td>
-                        <td>{{ categorypost.advice }}</td>
-                    </tr>
+                            <td>
+                                {% for nickname in nicknames %}
+                                    {% if nickname["id"] == languagepost.user_id %}
+                                        {{ nickname["nickname"] }}
+                                    {% endif %}
+                                {% endfor %}</td>
+                            <td>{{ languagepost.timestamp }}</td>
+                            <td>{{ category_ids[languagepost.category_id]["category_name"] }}</td>
+                            <td>{{ languagepost.title }}</td>
+                            <td>{{ languagepost.advice }}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>

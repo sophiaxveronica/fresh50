@@ -1,74 +1,83 @@
 <!DOCTYPE html>
+<!-- layout from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_interior_design&stacked=h -->
 
-<html lang="en">
-
-    <head>
-
-        <!-- Required meta tags -->
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-        <!-- documentation at http://getbootstrap.com/docs/4.0/, alternative themes at https://bootswatch.com/4-alpha/ -->
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"/>
-
-        <link href="/static/styles.css" rel="stylesheet"/>
-
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-
-        <title>Fresh Guide: {% block title %}{% endblock %}</title>
-
-    </head>
-
+<html>
+<title> Fresh Guide </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<style>
+    body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+    h6{font-size:200px;}
+    body {font-size:16px;}
+    .w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+    .w3-half img:hover{opacity:1}
+</style>
     <body>
-        <nav class="navbar navbar-expand-md navbar-light bg-light border">
-            <a class="navbar-brand" href="/"><span class="red">F</span><span class="red">R</span><span class="red">E</span><span class="red">S</span></span><span class="red">H</span> <span class="red">Guide</span></a>
-            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbar">
-                {% if session.user_id %}
-                    <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/categories">Categories</a></li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/myposts">My Posts</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/post">Post</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                    </ul>
-                {% else %}
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-                    </ul>
-                {% endif %}
-            </div>
-        </nav>
-
-        {% if get_flashed_messages() %}
-            <header>
-                <div class="alert alert-primary border text-center" role="alert">
-                    {{ get_flashed_messages() | join(" ") }}
-                </div>
-            </header>
-        {% endif %}
-
         <main class="container p-5">
             {% block main %}{% endblock %}
         </main>
+        {% block sidebar %}
+        <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+          <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+          <div class="w3-container">
+            <h6 class="w3-padding-0"><b><center><a href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">H</a></center></b></h6>
+          </div>
+          <div class="w3-bar-block">
+            <a href="/categories" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">By Category</a>
+            <a href="/languages" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">By Language</a>
+            <a href="/pafs" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">By PAF</a>
+            <p>
+                {% if session.user_id %}
+                    <a href="/myposts" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">My Posts</a>
+                    <a href="/postadvice" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Post Advice</a>
+                    <a href="/addevent" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Add Event</a>
+                    <a href="/usage" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Usage Statistics</a>
+                    <a href="/logout" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Logout</a>
+                {% else %}
+                     <a href="/login" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Log In</a>
+                     <a href="/register" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Register</a>
+                {% endif %}
+            </p>
+          </div>
+        </nav>
+        {% endblock %}
 
-        {% if session.user_id %}
-            {% block sidebar %}
-            <ul class="sidebar-nav">
-                 <li><a href="/favorite">Home</a></li>
-                 <li><a href="/">All books</a></li>
-                 <li><a href="/posts">All authors</a></li>
-            </ul>
-            {% endblock %}
-        {% endif %}
+           <!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰</a>
+  <span></span>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+</script>
 
     </body>
-
 </html>
+
+
+
+
+

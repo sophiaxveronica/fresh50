@@ -5,5 +5,19 @@
 {% endblock %}
 
 {% block main %}
-    <b>Home!! Yay!! GO US!!! (you and me, not the USA)</b>
+    <!-- header from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_interior_design&stacked=h -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+        <div class="w3-container" style="margin-top:80px">
+            <h1 class="w3-jumbo"><b>FRESH</b></h1>
+            <h1 class="w3-xxxlarge w3-text-red"><b>Advice from PAFs to Freshmen</b></h1>
+            <hr style="width:50px;border:5px solid red" class="w3-round">
+        </div>
+        {% for event in events %}
+            <div class="w3-container" style="margin-top:80px" id="showcase">
+                <p><img src="{{ event.event_url }}" onerror="this.src='http://i65.tinypic.com/29y2w5t.png'" height="420" width="420"></p>
+                <p><b>&nbsp;&nbsp;{{ event.description }}</b></p>
+                <p>&nbsp;&nbsp;{{ event.time_added }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

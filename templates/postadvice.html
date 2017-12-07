@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Post Advice
+{% endblock %}
+
+{% block main %}
+    <!-- header from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_interior_design&stacked=h -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+        <div class="w3-container" style="margin-top:80px" id="showcase">
+            <h1 class="w3-jumbo"><b>FRESH</b></h1>
+            <h1 class="w3-xxxlarge w3-text-red"><b>Post Advice</b></h1>
+            <hr style="width:50px;border:5px solid red" class="w3-round">
+        </div>
+        <form action="/postadvice" method="post">
+            <div class="w3-section">
+                <input autocomplete="off" autofocus class="w3-input w3-border" name="title" placeholder="Title" type="text"/>
+            </div>
+            <div class="w3-section">
+                <textarea autofocus class="w3-input w3-border" style="height:200px" name="advice" placeholder="Advice"></textarea>
+            </div>
+            <div class="w3-section">
+                <select name="language">
+                    <option value="English">English</option>
+                    <option value="Español">Español</option>
+                    <option value="Français">Français</option>
+                </select>
+            </div>
+            <div class="w3-section">
+                <select name="category">
+                    <option value="Academics">Academics</option>
+                    <option value="Athletics">Athletics</option>
+                    <option value="Budgeting">Budgeting</option>
+                    <option value="Extracurricular">Extracurricular</option>
+                    <option value="Social">Social</option>
+                    <option value="Wellness">Wellness</option>
+                </select>
+            </div>
+            <button class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" type="submit">Post</button>
+        </form>
+    </div>
+{% endblock %}

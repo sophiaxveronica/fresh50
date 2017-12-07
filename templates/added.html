@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Your Post
+    Event Added
 {% endblock %}
 
 {% block main %}
@@ -9,12 +9,10 @@
     <div class="w3-main" style="margin-left:340px;margin-right:40px">
         <div class="w3-container" style="margin-top:80px">
             <h1 class="w3-jumbo"><b>FRESH</b></h1>
-            <h1 class="w3-xxxlarge w3-text-red"><b>Your Post</b></h1>
+            <h1 class="w3-xxxlarge w3-text-red"><b>Event Added</b></h1>
             <hr style="width:50px;border:5px solid red" class="w3-round">
         </div>
-        <p><b>Title: </b>{{ title }}</p>
-        <p><b>Language: </b>{{ language }}</p>
-        <p><b>Category: </b>{{ category }}</p>
-        <p><b>Advice: </b>{{ advice }}</p>
+        <p><img src="{{ event_url }}" onerror="this.src='http://i65.tinypic.com/29y2w5t.png'" height="420" width="420"></p>
+        <p>{{ description }}</p>
     </div>
 {% endblock %}
