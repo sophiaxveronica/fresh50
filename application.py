@@ -5,7 +5,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import uhoh, login_required, exists
+from helpers import uhoh, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -38,22 +38,22 @@ def register():
 
         # Ensure username and nickname were submitted
         if not request.form.get("username") or not request.form.get("nickname"):
-            return uhoh("missing username or nickname")
+            return uhoh("missing username or nickname", 400)
 
         # Initiate correct PAF code
         pafcode = "Fre5h50!"
 
         # Ensure PAF code was submitted and is correct
         if request.form.get("pafcode") != pafcode:
-            return uhoh("PAF code is missing or incorrect")
+            return uhoh("PAF code is missing or incorrect", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return uhoh("missing password")
+            return uhoh("missing password", 400)
 
         # Ensure password confirmation was submitted and matches password
         elif request.form.get("password") != request.form.get("confirmation"):
-            return uhoh("confirmation either wasn't submitted or doesn't match password")
+            return uhoh("confirmation either wasn't submitted or doesn't match password", 400)
 
         # Add user to database
         id = db.execute("INSERT INTO users (username, hash, nickname) VALUES(:username, :hash, :nickname)",
@@ -61,7 +61,7 @@ def register():
                         hash=generate_password_hash(request.form.get("password")),
                         nickname=request.form.get("nickname"))
         if not id:
-            return uhoh("username or nickname taken")
+            return uhoh("username or nickname taken", 400)
 
         # Log user in
         session["user_id"] = id
@@ -87,7 +87,7 @@ def login():
 
         # Validate form submission
         if not request.form.get("username") or not request.form.get("password"):
-            return uhoh("must provide username and password", 403)
+            return uhoh("must provide username and password", 400)
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username",
@@ -95,7 +95,7 @@ def login():
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return uhoh("invalid username and/or password", 403)
+            return uhoh("invalid username and/or password", 400)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -128,7 +128,7 @@ def postadvice():
 
         # Validate form submission
         if not request.form.get("title") or not request.form.get("advice"):
-            return uhoh("missing title or advice")
+            return uhoh("missing title or advice", 400)
 
         # Get language id based on what language was selected
         language_id = db.execute("SELECT language_id FROM languages WHERE language_name=:name",
@@ -164,7 +164,7 @@ def myposts():
                          FROM posts WHERE user_id=:user_id ORDER BY timestamp DESC""",
                          user_id=session["user_id"])
     if not myposts:
-        return uhoh("no posts yet")
+        return uhoh("no posts yet", 400)
 
     # Get information about languages
     language_ids = db.execute("SELECT language_id, language_name FROM languages")
@@ -186,11 +186,7 @@ def addevent():
 
         # Validate form submission
         if not request.form.get("event_url") or not request.form.get("description"):
-            return uhoh("missing event image url or description")
-
-        # # Ensure submitted image file exists
-        # if not exists(request.form.get("event_url"), ):
-        #     return uhoh("please submit a real image url")
+            return uhoh("missing event image url or description", 400)
 
         # Insert event into events table
         db.execute("""INSERT INTO events (user_id, description, event_url)
@@ -218,12 +214,14 @@ def usage():
         posts = 0
 
     # Count number of languages with posts
-    languages = db.execute("SELECT COUNT(DISTINCT language_id) FROM posts")[0]["COUNT(DISTINCT language_id)"]
+    languages = db.execute("SELECT COUNT(DISTINCT language_id) FROM posts")[
+        0]["COUNT(DISTINCT language_id)"]
     if not languages:
         languages = 0
 
     # Count number of categories with posts
-    categories = (db.execute("SELECT COUNT(DISTINCT category_id) FROM posts"))[0]["COUNT(DISTINCT category_id)"]
+    categories = (db.execute("SELECT COUNT(DISTINCT category_id) FROM posts"))[
+        0]["COUNT(DISTINCT category_id)"]
     if not categories:
         categories = 0
 
@@ -246,9 +244,10 @@ def home():
     """Home screen displays events."""
 
     # Get all events
-    events = db.execute("SELECT description, time_added, event_url FROM events ORDER BY time_added DESC")
+    events = db.execute(
+        "SELECT description, time_added, event_url FROM events ORDER BY time_added DESC")
     if not events:
-        return uhoh("no events yet")
+        return uhoh("no events yet", 400)
 
     return render_template("home.html", events=events)
 
@@ -266,7 +265,7 @@ def category():
             categoryposts = db.execute("""SELECT user_id, title, language_id, advice, timestamp FROM posts
                                        ORDER BY timestamp DESC""")
             if not categoryposts:
-                return uhoh("no posts yet", 403)
+                return uhoh("no posts yet", 400)
 
         # Display posts from specific category
         else:
@@ -279,7 +278,7 @@ def category():
             categoryposts = db.execute("""SELECT user_id, title, language_id, advice, timestamp FROM posts
                                        WHERE category_id=:category_id ORDER BY timestamp DESC""", category_id=category_id)
             if not categoryposts:
-                return uhoh("no posts in this category yet", 403)
+                return uhoh("no posts in this category yet", 400)
 
         # Get information about languages
         language_ids = db.execute("SELECT language_id, language_name FROM languages")
@@ -309,7 +308,7 @@ def language():
                                    WHERE language_id=:language_id ORDER BY timestamp DESC""",
                                    language_id=language_id)
         if not languageposts:
-            return uhoh("no posts in this language yet", 403)
+            return uhoh("no posts in this language yet", 400)
 
         # Get information about categories
         category_ids = db.execute("SELECT category_id, category_name FROM categories")
@@ -339,7 +338,7 @@ def paf():
         pafposts = db.execute("""SELECT category_id, title, language_id, advice, timestamp FROM posts
                               WHERE user_id=:user_id ORDER BY timestamp DESC""", user_id=user_id)
         if not pafposts:
-            return uhoh("no posts from this user yet", 403)
+            return uhoh("no posts from this user yet", 400)
 
         # Get information about categories
         category_ids = db.execute("SELECT category_id, category_name FROM categories")

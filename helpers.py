@@ -1,7 +1,6 @@
 import csv
 import os
 import urllib.request
-import requests
 
 from flask import redirect, render_template, request, session
 from functools import wraps
@@ -35,24 +34,3 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
-# def exists(path):
-#     """
-#     Makes sure the image URL given is a real image.
-
-#     https://stackoverflow.com/questions/2486145/python-check-if-url-to-jpg-exists
-#     """
-#     r = requests.head(path)
-#     return r.status_code == requests.codes.ok
-
-def exists(site, path):
-    """
-    Makes sure the image URL given is a real image.
-
-    https://stackoverflow.com/questions/2486145/python-check-if-url-to-jpg-exists
-    """
-    conn = httplib.HTTPConnection(site)
-    conn.request('HEAD', path)
-    response = conn.getresponse()
-    conn.close()
-    return response.status == 200
