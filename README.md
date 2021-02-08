@@ -1,11 +1,19 @@
-# fresh
-Fresh: A CS50 Final Project
-by Sophia Clark and Veronica Nutting
+# Advice from PAFs to Freshmen
+
+<img src="fresh_screenshot1.png" alt="screenshot of site" width="900"/>
+
+[Link](https://fresh50.herokuapp.com) to project website
+
+Created by [Sophia Clark](https://github.com/sophiac15) and Veronica Nutting
+
+**About the Project:**
 
 The Fresh Guide acts as a platform where PAFs can post advice catered to freshman. The website, which is deployed via Heroku,
 is written mainly in Python and HTML with some Jinja. While some features require having logged in, the posts and events pages
 are available to the public. Although the website is designed for Harvard, it could serve as a template for similar platforms
 in other instituions and communities seeking to consolidate, organize, and expertly display information.
+
+<img src="fresh_screenshot2.png" alt="screenshot of site" width="900"/>
 
 The website's home page features a side-bar on the left side and displays event flyers ordered by most recent first. These images
 were taken from FDO emails about student events. Everyone can view these images, but
@@ -24,11 +32,12 @@ This is the extent of the website for students and other non-PAF/non-administrat
 of the website are based on the CS50 Staff implementations of PSET 7 ("Finance"). Fresh similarly stores new user information
 (hashing their passwords, remembering who has logged in, and checking that usernames are unique in the same ways). In addition to
 these elements, during the register process, Fresh requires that users insert a "nickname," which will be diplayed in place of their
-username along with their posts, and a "PAF Code" ("Fre5h50!"). Although in this prototype this code was singularly-generated, future versions
-might include more sophisticated forms of code protections ensuring that users seeking to register are indeed Harvard PAFs or
+username along with their posts, and a "PAF Code" ("Fre5h50!"). Although in this prototype this code was singularly-generated, future versions might include more sophisticated forms of code protections ensuring that users seeking to register are indeed Harvard PAFs or
 administrators. (Duo-Mobile/Harvard-Key log-in, which is used to protect many Harvard-specific websites, does let people apply to
 use their services. This might prove to be an effective way to check that users are PAF-certified upperclassmen, FDO staff members,
 or other relevant administrators.)
+
+<img src="fresh_screenshot3.png" alt="screenshot of site" width="900"/>
 
 "Log in" and "Register" sit further down on the sidebar and are visible to all users not logged in. Once logged in, users will instead
 see "My Posts," "Post Advice," "Add Event," "Usage Statistics," and "Logout," the most straight-forward of them all. When clicked,
