@@ -4,7 +4,7 @@
 
 [Link](https://fresh50.herokuapp.com) to project website
 
-Created by [Sophia Clark](https://github.com/sophiac15) and [Veronica Nutting] (https://github.com/veronicanutting)
+Created by [Sophia Clark](https://github.com/sophiac15) and [Veronica Nutting](https://github.com/veronicanutting)
 
 **About the Project:**
 
